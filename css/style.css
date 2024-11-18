@@ -1,0 +1,36 @@
+:root {
+--fnt_primary: sans-serif;
+}
+/* =============common css============= */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+outline: none;
+}
+body {
+font-family: var(--fnt_primary);
+height: 100dvh;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgb(49, 49, 49);
+}
+ol, ul, li {
+list-style: none;
+}
+a, span {
+text-decoration: none;
+display: inline-block;
+}
+img {
+vertical-align: middle;
+}
+
+/* ===========main css=============== */
+#canvas {
+    width: 350px;
+    height: 600px;
+    background-color: white;
+    border-radius: 15px;
+}
