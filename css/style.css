@@ -1,36 +1,165 @@
-:root {
---fnt_primary: sans-serif;
-}
 /* =============common css============= */
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-outline: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
 }
 body {
-font-family: var(--fnt_primary);
-height: 100dvh;
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: rgb(49, 49, 49);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg);
+  color: whitesmoke;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-ol, ul, li {
-list-style: none;
+ol,
+ul,
+li {
+  list-style: none;
 }
-a, span {
-text-decoration: none;
-display: inline-block;
+a,
+span {
+  text-decoration: none;
+  display: inline-block;
 }
 img {
-vertical-align: middle;
+  vertical-align: middle;
 }
-
+.pointer {
+  cursor: pointer;
+}
+p {
+  margin-bottom: 0;
+}
 /* ===========main css=============== */
 #canvas {
-    width: 350px;
-    height: 600px;
-    background-color: white;
-    border-radius: 15px;
+  width: 350px;
+  height: 600px;
+  background-image: url(https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 15px;
+  z-index: 1;
+  box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.486);
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+#canvas::before {
+  height: 100%;
+  width: 100%;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 15px;
+  z-index: -1;
+}
+.contentHolder {
+  backdrop-filter: blur(10px);
+}
+/* ==========Head==================== */
+.headPart {
+  position: fixed;
+  width: 318px;
+  transform: translateY(-1rem);
+  padding-top: 10px;
+  z-index: 999;
+  top: 35px;
+}
+.currentLocation {
+  font-size: 20px;
+  font-weight: 400;
+}
+/* ===========weathersummery========== */
+.weatherSummery {
+  padding: 70px 0;
+}
+.weatherSummeryTemp__bigTemp {
+  font-size: 90px;
+  font-weight: 600;
+  line-height: 110%;
+}
+.weatherSummeryTemp__unit {
+  font-size: 40px;
+  right: -30px;
+  font-weight: 600;
+}
+.weatherSummeryCondition {
+  font-weight: 300;
+  font-size: 18px;
+}
+.weatherSummeryAQI {
+  border-radius: 10px;
+  background-color: rgba(245, 222, 179, 0.11);
+  font-size: 14px;
+}
+
+/* ===========forecast============== */
+.forecastWrapper {
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+.forecastContentsWrapper {
+  width: fit-content;
+}
+.forecast,
+.todaysForecast {
+  background-color: rgba(0, 0, 0, 0.199);
+  border-radius: 10px;
+}
+.forecastRow {
+  font-weight: 300;
+}
+.forecastHeader {
+  color: rgba(255, 255, 255, 0.507);
+  font-size: 14px;
+}
+.detailForcastBtn {
+  border: none;
+  background-color: rgba(240, 248, 255, 0.315);
+  padding: 7px 0;
+  border-radius: 20px;
+  color: whitesmoke;
+}
+.forecastContent {
+  width: 50px;
+}
+.forecastContent__wind,
+.forecastContent__time {
+  font-size: 12px;
+}
+.forecastContent * {
+  margin: 0;
+}
+/* =================others============= */
+.otherUpdates,
+.otherUpdatesLeftWind, .otherUpdatesLeftSunCondition, .otherUpdatesLeftAQI{
+  background-color: rgba(0, 0, 0, 0.199);
+  border-radius: 10px;
+  height: fit-content;
+  padding: 10px;
+  font-size: 12px;
+}
+.otherUpdatesRight {
+  border-radius: 10px;
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.199);
+  padding: 0 10px;
+}
+.otherUpdatesRight * {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.534);
+}
+.otherUpdatesLeftWind, .otherUpdatesLeftSunset, .otherUpdatesLeftAQI {
+  height: 33%;
+}
+.othersUpdate {
+  max-width: 328px;
+}
+.otherUpdatesLeft {
+  row-gap: 10px;
 }

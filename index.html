@@ -1,17 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-duotone-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-thin.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/sharp-light.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
     <title>Weather</title>
-  </head>
-  <body>
-    <section id="canvas" class="canvas">
+</head>
 
+<body>
+    <div class="headPart d-flex justify-content-between align-items-baseline">
+        <i class="fa-solid fa-magnifying-glass pointer"></i>
+        <p class="currentLocation">Dhaka</p>
+        <i class="fa-solid fa-ellipsis-vertical pointer px-2"></i>
+    </div>
+    <section id="canvas" class="canvas">
+        <div class="contentHolder p-3 position-relative">
+            <div class="weatherSummery w-100 d-flex flex-column justify-content-center align-items-center">
+                <div class="weatherSummeryTemp d-flex position-relative">
+                    <h1 class="weatherSummeryTemp__bigTemp">29</h1><span class="weatherSummeryTemp__unit position-absolute">°c</span>
+                </div>
+                <div class="weatherSummeryCondition">
+                    <span class="weatherSummeryCondition__condition me-2">Haze</span>
+                    <span class="weatherSummeryCondition__highestTemp">30°</span>
+                    <span>/</span>
+                    <span class="weatherSummeryCondition__lowestTemp">17°</span>
+                </div>
+                <div class="weatherSummeryAQI px-3 py-1 mt-3 pointer">
+                    <i class="fa-light fa-mask-face me-1"></i><span class="weatherSummeryAQI__aqi">AQI <span id=weatherSummeryAQI">116</span></span>
+                </div>
+            </div>
+            <div id="forecast" class="forecast p-3">
+                <div class="forecastHeader d-flex justify-content-between pb-2">
+                    <div class="forecastHeaderLeft">
+                        <i class="fa-duotone fa-solid fa-calendar"></i>
+                        <span>5-day forecast</span>
+                    </div>
+                    <div class="forecastHeaderRight pointer">
+                        <span>More details</span>
+                        <i class="fa-solid fa-caret-right"></i>
+                    </div>
+                </div>
+                <div class="forecastRow d-flex justify-content-between py-2">
+                    <div class="forecastRowLeft">
+                        <i class="fa-duotone fa-solid fa-sun-haze me-2"></i>
+                        <span>Today</span>
+                        <span id="condition">Haze</span>
+                    </div>
+                    <div class="forecastRowRight">
+                        <span class="forecastRowRight__maxTemp">30°</span>
+                        <span>/</span>
+                        <span class="forecastRowRight__minTemp">17°</span>
+                    </div>
+                </div>
+                <div class="forecastRow d-flex justify-content-between py-2">
+                    <div class="forecastRowLeft">
+                        <i class="fa-duotone fa-solid fa-sun me-2"></i>
+                        <span>Tomorrow</span>
+                        <span id="condition">Clear</span>
+                    </div>
+                    <div class="forecastRowRight">
+                        <span class="forecastRowRight__maxTemp">30°</span>
+                        <span>/</span>
+                        <span class="forecastRowRight__minTemp">17°</span>
+                    </div>
+                </div>
+                <div class="forecastRow d-flex justify-content-between py-2">
+                    <div class="forecastRowLeft">
+                        <i class="fa-duotone fa-solid fa-sun me-2"></i>
+                        <span>Wed</span>
+                        <span id="condition">Clear</span>
+                    </div>
+                    <div class="forecastRowRight">
+                        <span class="forecastRowRight__maxTemp">30°</span>
+                        <span>/</span>
+                        <span class="forecastRowRight__minTemp">17°</span>
+                    </div>
+                </div>
+                <button class="detailForcastBtn w-100 mt-2">5-day forecast</button>
+            </div>
+            <!-- ===================Hourly forecast starts============================ -->
+            <div class="todaysForecast my-2 p-2">
+                <div class="forecastHeader d-flex justify-content-between pb-2">
+                    <div class="forecastHeaderLeft">
+                        <i class="fa-duotone fa-solid fa-clock"></i>
+                        <span>24-Hour forecast</span>
+                    </div>
+                </div>
+                <div class="forecastWrapper ps-2">
+                    <div class="forecastContentsWrapper d-flex gap-4">
+                        <div class="forecastContent d-flex flex-column justify-content-center align-items-center gap-1 my-2">
+                            <div class="forecastContentTempIcon d-flex align-items-center gap-1">
+                                <i class="fa-duotone fa-solid fa-sun"></i>
+                                <p class="forecastContent__temp">29°</p>
+                            </div>
+                            <p class="forecastContent__wind">4.5km/h</p>
+                            <p class="forecastContent__time">Now</p>
+                        </div>
+                        <div class="forecastContent d-flex flex-column justify-content-center align-items-center gap-1 my-2">
+                            <div class="forecastContentTempIcon d-flex align-items-center gap-1">
+                                <i class="fa-duotone fa-solid fa-sun"></i>
+                                <p class="forecastContent__temp">29°</p>
+                            </div>
+                            <p class="forecastContent__wind">4.5km/h</p>
+                            <p class="forecastContent__time">Now</p>
+                        </div>
+                        <div class="forecastContent d-flex flex-column justify-content-center align-items-center gap-1 my-2">
+                            <div class="forecastContentTempIcon d-flex align-items-center gap-1">
+                                <i class="fa-duotone fa-solid fa-sun"></i>
+                                <p class="forecastContent__temp">29°</p>
+                            </div>
+                            <p class="forecastContent__wind">4.5km/h</p>
+                            <p class="forecastContent__time">Now</p>
+                        </div>
+                        <div class="forecastContent d-flex flex-column justify-content-center align-items-center gap-1 my-2">
+                            <div class="forecastContentTempIcon d-flex align-items-center gap-1">
+                                <i class="fa-duotone fa-solid fa-sun"></i>
+                                <p class="forecastContent__temp">29°</p>
+                            </div>
+                            <p class="forecastContent__wind">4.5km/h</p>
+                            <p class="forecastContent__time">Now</p>
+                        </div>
+                        <div class="forecastContent d-flex flex-column justify-content-center align-items-center gap-1 my-2">
+                            <div class="forecastContentTempIcon d-flex align-items-center gap-1">
+                                <i class="fa-duotone fa-solid fa-sun"></i>
+                                <p class="forecastContent__temp">29°</p>
+                            </div>
+                            <p class="forecastContent__wind">4.5km/h</p>
+                            <p class="forecastContent__time">Now</p>
+                        </div>
+                        <div class="forecastContent d-flex flex-column justify-content-center align-items-center gap-1 my-2">
+                            <div class="forecastContentTempIcon d-flex align-items-center gap-1">
+                                <i class="fa-duotone fa-solid fa-sun"></i>
+                                <p class="forecastContent__temp">29°</p>
+                            </div>
+                            <p class="forecastContent__wind">4.5km/h</p>
+                            <p class="forecastContent__time">Now</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ===================Other details==================================== -->
+            <div class="othersUpdate row g-3">
+                <div class="col-6">
+                    <div class="otherUpdatesLeft d-flex flex-column">
+                        <div class="otherUpdatesLeftWind d-flex justify-content-between align-items-center">
+                            <div class="otherUpdatesLeftWindText">
+                                <p class="otherUpdatesLeftWindText__direction">Northwest</p>
+                                <p class="otherUpdatesLeftWindText__speed">4.5km/h</p>
+                            </div>
+                            <i class="fa-sharp-duotone fa-solid fa-wind" style="font-size: 25px;"></i>
+                        </div>
+                        <div class="otherUpdatesLeftSunCondition d-flex justify-content-between align-items-center">
+                            <div class="otherUpdatesLeftSunConditionText">
+                                <p class="otherUpdatesLeftSunConditionText__condition">Sunset</p>
+                                <p class="otherUpdatesLeftSunConditionText__time">5:21pm</p>
+                            </div>
+                            <i class="fa-duotone fa-solid fa-sun-haze" style="font-size: 25px;"></i>
+                        </div>
+                        <div class="otherUpdatesLeftAQI d-flex justify-content-between align-items-center">
+                            <div class="otherUpdatesLeftAQIText">
+                                <p class="otherUpdatesLeftAQIText__aqi">Air Quality Index</p>
+                                <p class="otherUpdatesLeftAQIText__time">116</p>
+                            </div>
+                            <i class="fa-duotone fa-solid fa-mask-face" style="font-size: 25px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 otherUpdatesRight">
+                    <div class="otherUpdatesRightHumidity d-flex justify-content-between my-2 py-1">
+                        <span>Humidity</span>
+                        <span>67%</span>
+                    </div>
+                        <div class="otherUpdatesFeelsLike d-flex justify-content-between my-2 py-1">
+                            <span>Feels like</span>
+                            <span>27°</span>
+                        </div>
+                        <div class="otherUpdatesUV d-flex justify-content-between my-2 py-1">
+                            <span>UV Index</span>
+                            <span>0</span>
+                        </div>
+                        <div class="otherUpdatesPressure d-flex justify-content-between my-2 py-1">
+                            <span>Pressure</span>
+                            <span>1013mbr</span>
+                        </div>
+                        <div class="otherUpdatesPrecipation d-flex justify-content-between my-2 py-1">
+                            <span>Chance of rain</span>
+                            <span>5%</span>
+                        </div>
+                </div>
+            </div>
+            <!-- <div class="otherUpdates">
+                <div class="otherUpdatesWrapper d-flex gap-1">
+                    <div class="otherUpdatesLeft w-50 d-flex flex-column gap-1">
+                        <div class="otherUpdatesLeftWind row p-1">
+                            <div class="otherUpdatesLeftWind__text">
+                                sadw
+                            </div>
+
+                        </div>
+                        <div class="otherUpdatesLeftSunset">wdwad</div>
+                        <div class="otherUpdatesLeftAQI">awdwd</div>
+                    </div>
+                    <div class="otherUpdatesRight w-50">
+                        <div class="otherUpdatesRightHumidity">wdasd</div>
+                        <div class="otherUpdatesFeelsLike">adwwdas</div>
+                        <div class="otherUpdatesUV">wdasdw</div>
+                        <div class="otherUpdatesPressure">dwads</div>
+                        <div class="otherUpdatesPrecipation">wdasdw</div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
     </section>
-  </body>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/main.js"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+
 </html>
