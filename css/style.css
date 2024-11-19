@@ -75,6 +75,25 @@ p {
   font-size: 20px;
   font-weight: 400;
 }
+.searchBox, .searchInput {
+  padding: 0.2rem 0.5rem;
+  border-radius: 30px;
+}
+.searchInput {
+  border: none;
+  width: 90%;
+  background-color: transparent;
+  color: white;
+}
+.searchBox {
+  background-color: rgba(245, 245, 245, 0.521);
+  transition: 0.3s ease-out;
+}
+.submitBtn {
+  border: none;
+  background-color: transparent;
+  color: white;
+}
 /* ===========weathersummery========== */
 .weatherSummery {
   padding: 70px 0;
