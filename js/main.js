@@ -8,6 +8,7 @@ let dailyForecastData = null;
 let forecastDataAW = null;
 const AW_apiKey = "zRPS15w0Lf4lAG96GrGXWykhck7sRyyY";
 const OW_apiKey = "6dddd25bb5635f994fdc1c00340448ea";
+const contentHolder = document.getElementById('contentHolder');
 // head ================================
 const searchBtn = document.getElementById("searchBtn");
 const cityName = document.getElementById('searchCity');
@@ -39,9 +40,9 @@ dateToDayName = timestamp => {
 }
 function formatTime12Hour(timestamp) {
   return new Date(timestamp * 1000).toLocaleString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
   });
 }
 // updates the weather summery display
@@ -59,34 +60,34 @@ updateDaily = () => {
   next3days.forEach((value, index) => {
     condition = value.Day.IconPhrase;
     // switching icons based on weather conditions
-    if(condition === 'Rain' || condition === 'Showers') {
+    if (condition === 'Rain' || condition === 'Showers') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain me-2"></i>`;
     }
-    else if(condition === 'Snow' || condition === 'Rain and snow' || condition === 'Freezing rain' || condition === 'Sleet' || condition === 'Ice' || condition === 'Flurries') {
+    else if (condition === 'Snow' || condition === 'Rain and snow' || condition === 'Freezing rain' || condition === 'Sleet' || condition === 'Ice' || condition === 'Flurries') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake me-2"></i>';
     }
-    else if(condition === 'Clear' || condition === 'Sunny') {
+    else if (condition === 'Clear' || condition === 'Sunny') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun me-2"></i>';
     }
-    else if(condition === 'Partly cloudy' || condition === 'Partly sunny' || condition === 'Mostly cloudy' || condition === 'Intermittent clouds') {
+    else if (condition === 'Partly cloudy' || condition === 'Partly sunny' || condition === 'Mostly cloudy' || condition === 'Intermittent clouds') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-solid fa-clouds-sun me-2"></i>';
     }
-    else if(condition === 'Mostly sunny' || condition === 'Mostly clear') {
+    else if (condition === 'Mostly sunny' || condition === 'Mostly clear') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-cloud me-2"></i>';
     }
-    else if(condition === 'Cloudy') {
+    else if (condition === 'Cloudy') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>';
     }
-    else if(condition === 'Drizzle') {
+    else if (condition === 'Drizzle') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>';
     }
-    else if(condition === 'Thunderstorm' || condition === 'Mostly cloudy w/ t-storms') {
+    else if (condition === 'Thunderstorm' || condition === 'Mostly cloudy w/ t-storms') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt me-2"></i>';
     }
-    else if(condition === 'Smoke' || condition === 'Fog') {
+    else if (condition === 'Smoke' || condition === 'Fog') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>';
     }
-    else if(condition === 'Hazy' || condition === 'Mist' || condition === 'Hazy sunshine') {
+    else if (condition === 'Hazy' || condition === 'Mist' || condition === 'Hazy sunshine') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>';
     }
     // updating the data of daily forecast
@@ -101,32 +102,32 @@ updateHourly = () => {
   //switching icons based on weather conditions
   next24hours.forEach((value, index) => {
     condition = value.weather[0].main;
-      if(condition === 'Rain') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain"></i>`;
-      }
-      else if(condition === 'Snow') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake"></i>';
-      }
-      else if(condition === 'Clear' && Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-moon-stars"></i>';
-      }
-      else if(condition === 'Clear' || condition === 'Sunny') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun"></i>';
-      }
-      else if(condition === 'Clouds') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds"></i>';
-      }
-      else if(condition === 'Drizzle') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle"></i>';
-      }
-      else if(condition === 'Thunderstorm') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt"></i>';
-      }
-      else if(condition === 'Smoke' || condition === 'Fog') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke"></i>';
-      }
-      else if(condition === 'Haze' || condition === 'Mist' || condition === 'Hazy sunshine') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze" ></i>';
+    if (condition === 'Rain') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain"></i>`;
+    }
+    else if (condition === 'Snow') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake"></i>';
+    }
+    else if (condition === 'Clear' && Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-moon-stars"></i>';
+    }
+    else if (condition === 'Clear' || condition === 'Sunny') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun"></i>';
+    }
+    else if (condition === 'Clouds') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds"></i>';
+    }
+    else if (condition === 'Drizzle') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle"></i>';
+    }
+    else if (condition === 'Thunderstorm') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt"></i>';
+    }
+    else if (condition === 'Smoke' || condition === 'Fog') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke"></i>';
+    }
+    else if (condition === 'Haze' || condition === 'Mist' || condition === 'Hazy sunshine') {
+      forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze" ></i>';
     }
     // updating the data in each block
     forecastItems[index].firstElementChild.lastElementChild.innerText = Math.round(value.main.temp) + '°';
@@ -137,11 +138,11 @@ updateHourly = () => {
 //updating other data
 updateOthers = () => {
   //updating the sunset/sunrise
-  if(Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochRise && Math.floor(Date.now() / 1000) < forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
+  if (Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochRise && Math.floor(Date.now() / 1000) < forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
     sunriseSunset.firstElementChild.innerText = "Sunset";
     sunriseSunset.lastElementChild.innerText = formatTime12Hour(forecastDataAW.DailyForecasts[0].Sun.EpochSet);
   }
-  else if(Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
+  else if (Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
     sunriseSunset.firstElementChild.innerText = "Sunrise";
     sunriseSunset.lastElementChild.innerText = formatTime12Hour(forecastDataAW.DailyForecasts[1].Sun.EpochRise);
   }
@@ -150,9 +151,9 @@ updateOthers = () => {
     let windDirArr = forecastDataAW.DailyForecasts[0].Day.Wind.Direction.English.split('');
     let windDirection = '';
     windDirArr.forEach(value => {
-      if(value === 'N') windDirection += ' North'
-      else if(value === 'E') windDirection += ' East'
-      else if(value === 'S') windDirection += ' South'
+      if (value === 'N') windDirection += ' North';
+      else if (value === 'E') windDirection += ' East';
+      else if (value === 'S') windDirection += ' South';
       else windDirection += ' West';
     })
     currentWind.firstElementChild.innerText = windDirection.trim();
@@ -173,7 +174,7 @@ updateOthers = () => {
 async function getWeather(cityName) {
   async function getCurrentWeatherData() {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${OW_apiKey}&units=metric`);
-    if(!response.ok) throw new Error(`Error: ${response.status}`);
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     weatherData = data;
   }
@@ -182,14 +183,14 @@ async function getWeather(cityName) {
   lon = weatherData.coord.lon;
   async function getAirQuality() {
     const response = await fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OW_apiKey}`);
-    if(!response.ok) throw new Error(`Error: ${response.status}`);
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     AQIData = data;
   }
   await getAirQuality();
   async function getDailyForecast() {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${OW_apiKey}&units=metric`);
-    if(!response.ok) throw new Error(`Error: ${response.status}`);
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     dailyForecastData = data;
   }
@@ -217,6 +218,10 @@ async function getForecastAW(cityName) {
 }
 // data update call======================================
 searchBoxForm.addEventListener('submit', async function (event) {
+  //applying fade out animation
+  setTimeout(() => {
+    Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 0);
+  }, 500);
   event.preventDefault();
   try {
     let keyWord = cityName.value.trim();
@@ -229,6 +234,8 @@ searchBoxForm.addEventListener('submit', async function (event) {
     updateDaily();
     updateHourly();
     updateOthers();
+    //applying fade in animation
+    Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 1);
   } catch (error) {
     console.warn('Error fetching weather:', error);
   }
