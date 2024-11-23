@@ -123,7 +123,7 @@ updateHourly = () => {
         forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze" ></i>';
     }
     // updating the data in each block
-    forecastItems[index].firstElementChild.lastElementChild.innerText = Math.round(value.main.temp);
+    forecastItems[index].firstElementChild.lastElementChild.innerText = Math.round(value.main.temp) + '°';
     forecastItems[index].firstElementChild.nextElementSibling.innerHTML = Math.round(value.wind.speed) + 'km/h';
     forecastItems[index].lastElementChild.innerText = formatTime12Hour(value.dt);
   });
@@ -164,7 +164,6 @@ async function getWeather(cityName) {
   lat = weatherData.coord.lat;
   lon = weatherData.coord.lon;
   async function getAirQuality() {
-    console.log(lat, lon);
     const response = await fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OW_apiKey}`);
     if(!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
@@ -190,7 +189,6 @@ async function getForecastAW(cityName) {
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     locationKey = data[0].Key;
-    console.log(locationKey);
   }
   await getLocationKey();
   const response = await fetch(
@@ -209,8 +207,7 @@ searchBoxForm.addEventListener('submit', async function (event) {
       alert('Please enter a valid city name');
       return;
     }
-    await getWeather(keyWord);
-    await getForecastAW(keyWord);
+    await Promise.allSettled([getWeather(keyWord), getForecastAW(keyWord)]);
     updateSummery();
     updateDaily();
     updateHourly();
