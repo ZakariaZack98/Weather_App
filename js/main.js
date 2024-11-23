@@ -35,6 +35,7 @@ const day3minTemp = document.getElementById("day3minTemp");
 const fullForecastBtn = document.getElementById("fullForecastBtn");
 
 //hourly forecast=====================
+const hourlyIcons = document.getElementsByClassName('hourlyIcon')
 const forecastContentNow = document.getElementById("forecastContentNow");
 const forecastContentNext = document.getElementById("forecastContentNext");
 const forecastContent3 = document.getElementById("forecastContent3");
@@ -65,92 +66,107 @@ function formatTime12Hour(timestamp) {
       hour12: true
   });
 }
-iconChange = (condition, element) => { //2nd param for element?
+// iconChange = (condition, element) => { //2nd param for element?
+//   switch(condition) {
+//     case "Rain" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-cloud-rain me-2"></i>')
+//     }
+//     break;
+//     case "Snow" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-regular fa-snowflake me-2"></i>');
+//     }
+//     break;
+//     case "Clear" : {
+
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun me-2"></i>');
+//     }
+//     break;
+//     case "Clouds" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>');
+//     }
+//     break;
+//     case "Drizzle" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>');
+//     }
+//     break;
+//     case "Thunderstorm" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-light fa-cloud-bolt me-2"></i>');
+//     }
+//     break;
+//     case "Smoke" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
+//     }
+//     break;
+//     case "Fog" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
+//     }
+//     break;
+//     case "Haze" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
+//     }
+//     break;
+//     case "Mist" : {
+//       element.firstElementChild.remove();
+//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
+//     }
+//     break;
+//   }
+// }
+
+iconChangeHourly = (condition, element) => {
   switch(condition) {
-    case "Rain" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-cloud-rain me-2"></i>')
+    case "Sunny" : {
+      element.firstElementChild.firstElementChild.remove();
     }
-    break;
-    case "Snow" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-regular fa-snowflake me-2"></i>');
-    }
-    break;
-    case "Clear" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun me-2"></i>');
-    }
-    break;
-    case "Clouds" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>');
-    }
-    break;
-    case "Drizzle" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>');
-    }
-    break;
-    case "Thunderstorm" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-light fa-cloud-bolt me-2"></i>');
-    }
-    break;
-    case "Smoke" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
-    }
-    break;
-    case "Fog" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
-    }
-    break;
-    case "Haze" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
-    }
-    break;
-    case "Mist" : {
-      element.firstElementChild.remove();
-      element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
-    }
-    break;
   }
 }
 
 updateSummery = () => {
   mainTempCount.innerText = Math.round(weatherData.main.temp);
   curentCondition.innerText = weatherData.weather[0].main;
-  todaysHighestTemp.innerText = Math.round(weatherData.main.temp_max);
-  todaysLowestTemp.innerText = Math.round(weatherData.main.temp_min);
+  todaysHighestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Maximum.Value);
+  todaysLowestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Minimum.Value);
   currentAQI.innerText = AQIData.list[0].main.aqi;
 }
 updateDaily = () => {
-  //today
-  iconChange(weatherData.weather[0].main, todayIcon);
-  todayscondition.innerText = weatherData.weather[0].main;
   todaysLowestTempForecast.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Minimum.Value) + '°';
   todaysHighestTempForecast.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Maximum.Value) + '°';
   //tomorrow
-  iconChange(dailyForecastData.list[5].weather[0].main, tomorrowIcon);
-  tomorrowCondition.innerText = dailyForecastData.list[5].weather[0].main;
   tomorrowLowestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[1].Temperature.Minimum.Value) + '°';
   tomorrowHighestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[1].Temperature.Maximum.Value) + '°';
   //3rd day
-  iconChange(dailyForecastData.list[2].weather[0].main, day3icon);
-  day3name.innerText = dateToDayName(dailyForecastData.list[12].dt);
-  day3condition.innerText = dailyForecastData.list[2].weather[0].main;
   day3minTemp.innerText = Math.round(forecastDataAW.DailyForecasts[2].Temperature.Minimum.Value) + '°';
   day3maxTemp.innerText = Math.round(forecastDataAW.DailyForecasts[2].Temperature.Maximum.Value) + '°';
 }
 updateOthers = () => {
+
+  if(Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochRise && Math.floor(Date.now() / 1000) < forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
+    sunriseSunset.firstElementChild.innerText = "Sunset";
+    sunriseSunset.lastElementChild.innerText = formatTime12Hour(forecastDataAW.DailyForecasts[0].Sun.EpochSet);
+  }
+  else if(Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
+    sunriseSunset.firstElementChild.innerText = "Sunrise";
+    sunriseSunset.lastElementChild.innerText = formatTime12Hour(forecastDataAW.DailyForecasts[1].Sun.EpochRise);
+  }
+
+  currentWind.firstElementChild.innerText = forecastDataAW.DailyForecasts[0].Day.Wind.Direction.English;
+  currentWind.lastElementChild.innerText = weatherData.wind.speed + 'km/h';
+
+  currentAQI2.lastElementChild.innerText = AQIData.list[0].main.aqi;
+
   humidity.innerText = weatherData.main.humidity + '%';
   feelsLike.innerText = Math.round(weatherData.main.feels_like) + '°';
-  //uvIndex...
+  UVIndex.innerText = forecastDataAW.DailyForecasts[0].AirAndPollen[5].Category;
   pressure.innerText = `${weatherData.main.pressure}mbr`;
-  // precipation.innerText = weatherData...
+  precipation.innerText = `${forecastDataAW.DailyForecasts[0].Day.RainProbability}%`;
 }
 
 
@@ -255,6 +271,6 @@ searchBoxForm.addEventListener('submit', async function (event) {
     updateDaily();
     updateOthers();
   } catch (error) {
-    console.error('Error fetching weather:', error);
+    console.warn('Error fetching weather:', error);
   }
 });
