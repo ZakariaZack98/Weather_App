@@ -102,6 +102,21 @@ iconChange = (condition, element) => { //2nd param for element?
       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
     }
     break;
+    case "Fog" : {
+      element.firstElementChild.remove();
+      element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
+    }
+    break;
+    case "Haze" : {
+      element.firstElementChild.remove();
+      element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
+    }
+    break;
+    case "Mist" : {
+      element.firstElementChild.remove();
+      element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
+    }
+    break;
   }
 }
 
@@ -116,19 +131,19 @@ updateDaily = () => {
   //today
   iconChange(weatherData.weather[0].main, todayIcon);
   todayscondition.innerText = weatherData.weather[0].main;
-  todaysLowestTempForecast.innerText = Math.round(weatherData.main.temp_min) + '°';
-  todaysHighestTempForecast.innerText = Math.round(weatherData.main.temp_max) + '°';
+  todaysLowestTempForecast.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Minimum.Value) + '°';
+  todaysHighestTempForecast.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Maximum.Value) + '°';
   //tomorrow
   iconChange(dailyForecastData.list[5].weather[0].main, tomorrowIcon);
   tomorrowCondition.innerText = dailyForecastData.list[5].weather[0].main;
-  tomorrowLowestTemp.innerText = Math.round(dailyForecastData.list[5].main.temp_min) + '°';
-  tomorrowHighestTemp.innerText = Math.round(dailyForecastData.list[5].main.temp_max) + '°';
+  tomorrowLowestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[1].Temperature.Minimum.Value) + '°';
+  tomorrowHighestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[1].Temperature.Maximum.Value) + '°';
   //3rd day
   iconChange(dailyForecastData.list[2].weather[0].main, day3icon);
   day3name.innerText = dateToDayName(dailyForecastData.list[12].dt);
   day3condition.innerText = dailyForecastData.list[2].weather[0].main;
-  day3minTemp.innerText = Math.round(dailyForecastData.list[12].main.temp_min) + '°';
-  day3maxTemp.innerText = Math.round(dailyForecastData.list[12].main.temp_max) + '°';
+  day3minTemp.innerText = Math.round(forecastDataAW.DailyForecasts[2].Temperature.Minimum.Value) + '°';
+  day3maxTemp.innerText = Math.round(forecastDataAW.DailyForecasts[2].Temperature.Maximum.Value) + '°';
 }
 updateOthers = () => {
   humidity.innerText = weatherData.main.humidity + '%';
@@ -149,6 +164,7 @@ updateOthers = () => {
 let weatherData = null;
 let AQIData = null;
 let dailyForecastData = null;
+let forecastDataAW = null;
 // //accuweather data fetch==============================
 // async function getWeather(cityName) {
 //   let locationKey;
@@ -203,6 +219,28 @@ async function getWeather(cityName) {
   await getDailyForecast();
 }
 
+// fetching daily forecast from accuweather
+async function getForecastAW(cityName) {
+  let locationKey;
+  async function getLocationKey() {
+    const response = await fetch(
+      `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=zRPS15w0Lf4lAG96GrGXWykhck7sRyyY&q=${cityName}`
+    );
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    const data = await response.json();
+    locationKey = data[0].Key;
+    console.log(locationKey);
+  }
+  await getLocationKey();
+  const response = await fetch(
+    `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${AW_apiKey}&details=true&metric=true`
+  );
+  if (!response.ok) throw new Error(`Error: ${response.status}`);
+  const data = await response.json();
+  forecastDataAW = data;
+}
+
+
 searchBoxForm.addEventListener('submit', async function (event) {
   event.preventDefault();
   try {
@@ -212,6 +250,7 @@ searchBoxForm.addEventListener('submit', async function (event) {
       return;
     }
     await getWeather(keyWord);
+    await getForecastAW(keyWord);
     updateSummery();
     updateDaily();
     updateOthers();
