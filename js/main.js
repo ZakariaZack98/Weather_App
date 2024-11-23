@@ -59,14 +59,20 @@ updateDaily = () => {
   next3days.forEach((value, index) => {
     condition = value.Day.IconPhrase;
     // switching icons based on weather conditions
-    if(condition === 'Rain') {
+    if(condition === 'Rain' || condition === 'Showers') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain me-2"></i>`;
     }
-    else if(condition === 'Snow') {
+    else if(condition === 'Snow' || condition === 'Rain and snow' || condition === 'Freezing rain' || condition === 'Sleet' || condition === 'Ice' || condition === 'Flurries') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake me-2"></i>';
     }
     else if(condition === 'Clear' || condition === 'Sunny') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun me-2"></i>';
+    }
+    else if(condition === 'Partly cloudy' || condition === 'Partly sunny' || condition === 'Mostly cloudy' || condition === 'Intermittent clouds') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-solid fa-clouds-sun me-2"></i>';
+    }
+    else if(condition === 'Mostly sunny' || condition === 'Mostly clear') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-cloud me-2"></i>';
     }
     else if(condition === 'Cloudy') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>';
@@ -74,13 +80,13 @@ updateDaily = () => {
     else if(condition === 'Drizzle') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>';
     }
-    else if(condition === 'Thunderstorm') {
+    else if(condition === 'Thunderstorm' || condition === 'Mostly cloudy w/ t-storms') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt me-2"></i>';
     }
     else if(condition === 'Smoke' || condition === 'Fog') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>';
     }
-    else if(condition === 'Haze' || condition === 'Mist') {
+    else if(condition === 'Hazy' || condition === 'Mist' || condition === 'Hazy sunshine') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>';
     }
     // updating the data of daily forecast
@@ -140,7 +146,18 @@ updateOthers = () => {
     sunriseSunset.lastElementChild.innerText = formatTime12Hour(forecastDataAW.DailyForecasts[1].Sun.EpochRise);
   }
   //updating wind direction and speed
-  currentWind.firstElementChild.innerText = forecastDataAW.DailyForecasts[0].Day.Wind.Direction.English;
+  updateWindDirection = () => {
+    let windDirArr = forecastDataAW.DailyForecasts[0].Day.Wind.Direction.English.split('');
+    let windDirection = '';
+    windDirArr.forEach(value => {
+      if(value === 'N') windDirection += ' North'
+      else if(value === 'E') windDirection += ' East'
+      else if(value === 'S') windDirection += ' South'
+      else windDirection += ' West';
+    })
+    currentWind.firstElementChild.innerText = windDirection.trim();
+  }
+  updateWindDirection();
   currentWind.lastElementChild.innerText = weatherData.wind.speed + 'km/h';
   //updating Air Quality Index
   currentAQI2.lastElementChild.innerText = AQIData.list[0].main.aqi;
