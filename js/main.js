@@ -8,7 +8,11 @@ let dailyForecastData = null;
 let forecastDataAW = null;
 const AW_apiKey = "zRPS15w0Lf4lAG96GrGXWykhck7sRyyY";
 const OW_apiKey = "6dddd25bb5635f994fdc1c00340448ea";
+const mainBody = document.getElementById('mainBody');
 const contentHolder = document.getElementById('contentHolder');
+const canvasBG = document.getElementById('canvasBG');
+const mainWrapper = document.getElementById('mainWrapper');
+const background = document.getElementById('background');
 // head ================================
 const searchBtn = document.getElementById("searchBtn");
 const cityName = document.getElementById('searchCity');
@@ -46,6 +50,14 @@ function formatTime12Hour(timestamp) {
   });
 }
 // updates the weather summery display
+changeBackground = () => {
+  background.style.opacity = 0;
+  setTimeout(() => {
+    background.style.backgroundImage = `url('https://static.vecteezy.com/system/resources/thumbnails/047/462/181/small/raindrops-streaking-down-a-windowpane-with-a-blurred-cityscape-in-the-background-photo.jpg')`;
+    background.style.opacity = 1; // Fade-in
+  }, 500); // Matches the CSS transition duration;
+}
+
 updateSummery = () => {
   mainTempCount.innerText = Math.round(weatherData.main.temp);
   curentCondition.innerText = weatherData.weather[0].description;

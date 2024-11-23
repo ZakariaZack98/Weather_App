@@ -4,7 +4,6 @@
   padding: 0;
   box-sizing: border-box;
   outline: none;
-  transition: 0.5s ease-in-out;
 }
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -12,11 +11,31 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg);
+  color: whitesmoke;
+  background-color: rgb(0, 0, 0);
+  position: relative;
+}
+#mainWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#background {
+  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place it behind other content */
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s ease; /* For smooth fading */
+    background-image: url(https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg);
   color: whitesmoke;
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 ol,
 ul,
 li {
@@ -36,14 +55,13 @@ img {
 p {
   margin-bottom: 0;
 }
+.bgBlack {
+  background-color: rgb(24, 24, 24) !important;
+}
 /* ===========main css=============== */
 #canvas {
   width: 350px;
   height: 600px;
-  background-image: url(https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   border-radius: 15px;
   z-index: 1;
   box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.486);
@@ -51,15 +69,32 @@ p {
   scrollbar-width: none;
   transition: 0.3s ease-in-out;
 }
-#canvas::before {
-  height: 100%;
-  width: 100%;
-  content: "";
+#canvasBG {
+  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place it behind other content */
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s ease; /* For smooth fading */
+    background-color: transparent;
+    border-radius: 15px;
+}
+#mainWrapper {
+  position: relative;
+}
+#background {
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 15px;
-  z-index: -1;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Place it behind other content */
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease; /* For smooth fading */
 }
 .contentHolder {
   backdrop-filter: blur(10px);
