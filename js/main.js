@@ -15,7 +15,7 @@ const todaysHighestTemp = document.getElementById("todaysHighestTemp");
 const todaysLowestTemp = document.getElementById("todaysLowestTemp");
 const currentAQI = document.getElementById("todayAQI");
 //forecast==========================
-const todayIcon = document.getElementById("todayIcon");
+const todayIcon = Array.from(document.getElementsByClassName("todayIcon"));
 const todayscondition = document.getElementById("todayscondition");
 const todaysLowestTempForecast = document.getElementById(
   "todaysLowestTempForecast"
@@ -35,16 +35,8 @@ const day3minTemp = document.getElementById("day3minTemp");
 const fullForecastBtn = document.getElementById("fullForecastBtn");
 
 //hourly forecast=====================
-const hourlyIcons = document.getElementsByClassName('hourlyIcon')
-const forecastContentNow = document.getElementById("forecastContentNow");
-const forecastContentNext = document.getElementById("forecastContentNext");
-const forecastContent3 = document.getElementById("forecastContent3");
-const forecastContent4 = document.getElementById("forecastContent4");
-const forecastContent5 = document.getElementById("forecastContent5");
-const forecastContent6 = document.getElementById("forecastContent6");
-const forecastContent7 = document.getElementById("forecastContent7");
-const forecastContent8 = document.getElementById("forecastContent8");
-// other updates=======================
+const forecastItems = Array.from(document.getElementsByClassName('forecastContent'));
+const hourlyIcons = document.getElementsByClassName('hourlyIcon');
 const currentWind = document.getElementById("currentWind");
 const sunriseSunset = document.getElementById("sunriseSunset");
 const currentAQI2 = document.getElementById("currentAQI2");
@@ -66,72 +58,47 @@ function formatTime12Hour(timestamp) {
       hour12: true
   });
 }
-// iconChange = (condition, element) => { //2nd param for element?
-//   switch(condition) {
-//     case "Rain" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-cloud-rain me-2"></i>')
-//     }
-//     break;
-//     case "Snow" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-regular fa-snowflake me-2"></i>');
-//     }
-//     break;
-//     case "Clear" : {
 
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun me-2"></i>');
-//     }
-//     break;
-//     case "Clouds" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>');
-//     }
-//     break;
-//     case "Drizzle" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>');
-//     }
-//     break;
-//     case "Thunderstorm" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-light fa-cloud-bolt me-2"></i>');
-//     }
-//     break;
-//     case "Smoke" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
-//     }
-//     break;
-//     case "Fog" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>');
-//     }
-//     break;
-//     case "Haze" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
-//     }
-//     break;
-//     case "Mist" : {
-//       element.firstElementChild.remove();
-//       element.insertAdjacentHTML('afterbegin', '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>');
-//     }
-//     break;
-//   }
-// }
-
-iconChangeHourly = (condition, element) => {
-  switch(condition) {
-    case "Sunny" : {
-      element.firstElementChild.firstElementChild.remove();
+updateHourly = () => {
+  const next24hours = dailyForecastData.list.slice(0, 8);
+  next24hours.forEach((value, index) => {
+      if(value.weather[0].main === 'Rain') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain"></i>`;
+      }
+      else if(value.weather[0].main === 'Snow') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake"></i>';
+      }
+      else if(value.weather[0].main === 'Clear' && Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-moon-stars"></i>';
+      }
+      else if(value.weather[0].main === 'Clear' || value.weather.main === 'Sunny') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun"></i>';
+      }
+      else if(value.weather[0].main === 'Clouds') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds"></i>';
+      }
+      else if(value.weather[0].main === 'Drizzle') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle"></i>';
+      }
+      else if(value.weather[0].main === 'Thunderstorm') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt"></i>';
+      }
+      else if(value.weather[0].main === 'Smoke' || value.weather.main === 'Fog') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>';
+      }
+      else if(value.weather[0].main === 'Haze' || value.weather.main === 'Mist') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze" ></i>';
     }
-  }
+
+    forecastItems[index].firstElementChild.lastElementChild.innerText = Math.round(value.main.temp);
+    forecastItems[index].firstElementChild.nextElementSibling.innerHTML = Math.round(value.wind.speed) + 'km/h';
+    forecastItems[index].lastElementChild.innerText = formatTime12Hour(value.dt);
+  });
 }
 
 updateSummery = () => {
   mainTempCount.innerText = Math.round(weatherData.main.temp);
-  curentCondition.innerText = weatherData.weather[0].main;
+  curentCondition.innerText = weatherData.weather[0].description;
   todaysHighestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Maximum.Value);
   todaysLowestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Minimum.Value);
   currentAQI.innerText = AQIData.list[0].main.aqi;
@@ -269,6 +236,7 @@ searchBoxForm.addEventListener('submit', async function (event) {
     await getForecastAW(keyWord);
     updateSummery();
     updateDaily();
+    updateHourly();
     updateOthers();
   } catch (error) {
     console.warn('Error fetching weather:', error);
