@@ -15,25 +15,8 @@ const todaysHighestTemp = document.getElementById("todaysHighestTemp");
 const todaysLowestTemp = document.getElementById("todaysLowestTemp");
 const currentAQI = document.getElementById("todayAQI");
 //forecast==========================
-const todayIcon = Array.from(document.getElementsByClassName("todayIcon"));
-const todayscondition = document.getElementById("todayscondition");
-const todaysLowestTempForecast = document.getElementById(
-  "todaysLowestTempForecast"
-);
-const todaysHighestTempForecast = document.getElementById(
-  "todaysHighestTempForecast"
-);
-const tomorrowIcon = document.getElementById("tomorrowIcon");
-const tomorrowCondition = document.getElementById("tomorrowCondition");
-const tomorrowLowestTemp = document.getElementById("tomorrowLowestTemp");
-const tomorrowHighestTemp = document.getElementById("tomorrowHighestTemp");
-const day3icon = document.getElementById("day3icon");
-const day3name = document.getElementById("day3name");
-const day3condition = document.getElementById('day3condition');
-const day3maxTemp = document.getElementById("day3maxTemp");
-const day3minTemp = document.getElementById("day3minTemp");
+const forecastRows = Array.from(document.getElementsByClassName('forecastRow'));
 const fullForecastBtn = document.getElementById("fullForecastBtn");
-
 //hourly forecast=====================
 const forecastItems = Array.from(document.getElementsByClassName('forecastContent'));
 const hourlyIcons = document.getElementsByClassName('hourlyIcon');
@@ -84,7 +67,7 @@ updateHourly = () => {
         forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt"></i>';
       }
       else if(value.weather[0].main === 'Smoke' || value.weather.main === 'Fog') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>';
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke"></i>';
       }
       else if(value.weather[0].main === 'Haze' || value.weather.main === 'Mist') {
         forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze" ></i>';
@@ -104,14 +87,38 @@ updateSummery = () => {
   currentAQI.innerText = AQIData.list[0].main.aqi;
 }
 updateDaily = () => {
-  todaysLowestTempForecast.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Minimum.Value) + '°';
-  todaysHighestTempForecast.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Maximum.Value) + '°';
-  //tomorrow
-  tomorrowLowestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[1].Temperature.Minimum.Value) + '°';
-  tomorrowHighestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[1].Temperature.Maximum.Value) + '°';
-  //3rd day
-  day3minTemp.innerText = Math.round(forecastDataAW.DailyForecasts[2].Temperature.Minimum.Value) + '°';
-  day3maxTemp.innerText = Math.round(forecastDataAW.DailyForecasts[2].Temperature.Maximum.Value) + '°';
+  let condition;
+  const next3days = forecastDataAW.DailyForecasts.slice(0, 3);
+  next3days.forEach((value, index) => {
+    condition = value.Day.IconPhrase;
+    if(condition === 'Rain') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain me-2"></i>`;
+    }
+    else if(condition === 'Snow') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake me-2"></i>';
+    }
+    else if(condition === 'Clear' || condition === 'Sunny') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun me-2"></i>';
+    }
+    else if(condition === 'Cloudy') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>';
+    }
+    else if(condition === 'Drizzle') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>';
+    }
+    else if(condition === 'Thunderstorm') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt me-2"></i>';
+    }
+    else if(condition === 'Smoke' || condition === 'Fog') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>';
+    }
+    else if(condition === 'Haze' || condition === 'Mist') {
+      forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>';
+    }
+    forecastRows[index].firstElementChild.lastElementChild.innerHTML = value.Day.IconPhrase;
+    forecastRows[index].lastElementChild.firstElementChild.innerText = Math.round(value.Temperature.Maximum.Value) + '°';
+    forecastRows[index].lastElementChild.lastElementChild.innerText = Math.round(value.Temperature.Minimum.Value) + '°';
+  })
 }
 updateOthers = () => {
 
@@ -135,13 +142,6 @@ updateOthers = () => {
   pressure.innerText = `${weatherData.main.pressure}mbr`;
   precipation.innerText = `${forecastDataAW.DailyForecasts[0].Day.RainProbability}%`;
 }
-
-
-
-
-
-
-
 
 // search location===============================================
 let weatherData = null;
