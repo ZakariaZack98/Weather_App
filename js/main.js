@@ -1,10 +1,14 @@
 // Elements=====================================================
 // metadata========================
-const AW_apiKey = "zRPS15w0Lf4lAG96GrGXWykhck7sRyyY";
-const OW_apiKey = "6dddd25bb5635f994fdc1c00340448ea";
 let lat;
 let lon;
-// ================================
+let weatherData = null;
+let AQIData = null;
+let dailyForecastData = null;
+let forecastDataAW = null;
+const AW_apiKey = "zRPS15w0Lf4lAG96GrGXWykhck7sRyyY";
+const OW_apiKey = "6dddd25bb5635f994fdc1c00340448ea";
+// head ================================
 const searchBtn = document.getElementById("searchBtn");
 const cityName = document.getElementById('searchCity');
 const searchBoxForm = document.getElementById('searchBoxForm');
@@ -19,11 +23,10 @@ const forecastRows = Array.from(document.getElementsByClassName('forecastRow'));
 const fullForecastBtn = document.getElementById("fullForecastBtn");
 //hourly forecast=====================
 const forecastItems = Array.from(document.getElementsByClassName('forecastContent'));
-const hourlyIcons = document.getElementsByClassName('hourlyIcon');
+// other forecasts====================
 const currentWind = document.getElementById("currentWind");
 const sunriseSunset = document.getElementById("sunriseSunset");
 const currentAQI2 = document.getElementById("currentAQI2");
-
 const humidity = document.getElementById("humidity");
 const feelsLike = document.getElementById("feelsLike");
 const UVIndex = document.getElementById("UVIndex");
@@ -41,44 +44,7 @@ function formatTime12Hour(timestamp) {
       hour12: true
   });
 }
-
-updateHourly = () => {
-  const next24hours = dailyForecastData.list.slice(0, 8);
-  next24hours.forEach((value, index) => {
-      if(value.weather[0].main === 'Rain') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain"></i>`;
-      }
-      else if(value.weather[0].main === 'Snow') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake"></i>';
-      }
-      else if(value.weather[0].main === 'Clear' && Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-moon-stars"></i>';
-      }
-      else if(value.weather[0].main === 'Clear' || value.weather.main === 'Sunny') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun"></i>';
-      }
-      else if(value.weather[0].main === 'Clouds') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds"></i>';
-      }
-      else if(value.weather[0].main === 'Drizzle') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle"></i>';
-      }
-      else if(value.weather[0].main === 'Thunderstorm') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt"></i>';
-      }
-      else if(value.weather[0].main === 'Smoke' || value.weather.main === 'Fog') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke"></i>';
-      }
-      else if(value.weather[0].main === 'Haze' || value.weather.main === 'Mist') {
-        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze" ></i>';
-    }
-
-    forecastItems[index].firstElementChild.lastElementChild.innerText = Math.round(value.main.temp);
-    forecastItems[index].firstElementChild.nextElementSibling.innerHTML = Math.round(value.wind.speed) + 'km/h';
-    forecastItems[index].lastElementChild.innerText = formatTime12Hour(value.dt);
-  });
-}
-
+// updates the weather summery display
 updateSummery = () => {
   mainTempCount.innerText = Math.round(weatherData.main.temp);
   curentCondition.innerText = weatherData.weather[0].description;
@@ -86,11 +52,13 @@ updateSummery = () => {
   todaysLowestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Minimum.Value);
   currentAQI.innerText = AQIData.list[0].main.aqi;
 }
+// updates the daily update section
 updateDaily = () => {
   let condition;
   const next3days = forecastDataAW.DailyForecasts.slice(0, 3);
   next3days.forEach((value, index) => {
     condition = value.Day.IconPhrase;
+    // switching icons based on weather conditions
     if(condition === 'Rain') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain me-2"></i>`;
     }
@@ -115,13 +83,54 @@ updateDaily = () => {
     else if(condition === 'Haze' || condition === 'Mist') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>';
     }
+    // updating the data of daily forecast
     forecastRows[index].firstElementChild.lastElementChild.innerHTML = value.Day.IconPhrase;
     forecastRows[index].lastElementChild.firstElementChild.innerText = Math.round(value.Temperature.Maximum.Value) + '°';
     forecastRows[index].lastElementChild.lastElementChild.innerText = Math.round(value.Temperature.Minimum.Value) + '°';
   })
 }
+updateHourly = () => {
+  let condition;
+  const next24hours = dailyForecastData.list.slice(0, 8);
+  //switching icons based on weather conditions
+  next24hours.forEach((value, index) => {
+    condition = value.weather[0].main;
+      if(condition === 'Rain') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain"></i>`;
+      }
+      else if(condition === 'Snow') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake"></i>';
+      }
+      else if(condition === 'Clear' && Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-moon-stars"></i>';
+      }
+      else if(condition === 'Clear' || condition === 'Sunny') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun"></i>';
+      }
+      else if(condition === 'Clouds') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds"></i>';
+      }
+      else if(condition === 'Drizzle') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle"></i>';
+      }
+      else if(condition === 'Thunderstorm') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt"></i>';
+      }
+      else if(condition === 'Smoke' || condition === 'Fog') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke"></i>';
+      }
+      else if(condition === 'Haze' || condition === 'Mist' || condition === 'Hazy sunshine') {
+        forecastItems[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze" ></i>';
+    }
+    // updating the data in each block
+    forecastItems[index].firstElementChild.lastElementChild.innerText = Math.round(value.main.temp);
+    forecastItems[index].firstElementChild.nextElementSibling.innerHTML = Math.round(value.wind.speed) + 'km/h';
+    forecastItems[index].lastElementChild.innerText = formatTime12Hour(value.dt);
+  });
+}
+//updating other data
 updateOthers = () => {
-
+  //updating the sunset/sunrise
   if(Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochRise && Math.floor(Date.now() / 1000) < forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
     sunriseSunset.firstElementChild.innerText = "Sunset";
     sunriseSunset.lastElementChild.innerText = formatTime12Hour(forecastDataAW.DailyForecasts[0].Sun.EpochSet);
@@ -130,12 +139,12 @@ updateOthers = () => {
     sunriseSunset.firstElementChild.innerText = "Sunrise";
     sunriseSunset.lastElementChild.innerText = formatTime12Hour(forecastDataAW.DailyForecasts[1].Sun.EpochRise);
   }
-
+  //updating wind direction and speed
   currentWind.firstElementChild.innerText = forecastDataAW.DailyForecasts[0].Day.Wind.Direction.English;
   currentWind.lastElementChild.innerText = weatherData.wind.speed + 'km/h';
-
+  //updating Air Quality Index
   currentAQI2.lastElementChild.innerText = AQIData.list[0].main.aqi;
-
+  //updating other datas
   humidity.innerText = weatherData.main.humidity + '%';
   feelsLike.innerText = Math.round(weatherData.main.feels_like) + '°';
   UVIndex.innerText = forecastDataAW.DailyForecasts[0].AirAndPollen[5].Category;
@@ -143,38 +152,7 @@ updateOthers = () => {
   precipation.innerText = `${forecastDataAW.DailyForecasts[0].Day.RainProbability}%`;
 }
 
-// search location===============================================
-let weatherData = null;
-let AQIData = null;
-let dailyForecastData = null;
-let forecastDataAW = null;
-// //accuweather data fetch==============================
-// async function getWeather(cityName) {
-//   let locationKey;
-//   async function getLocationKey() {
-//     const response = await fetch(
-//       `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${AW_apiKey}&q=${cityName}`
-//     );
-//     if (!response.ok) throw new Error(`Error: ${response.status}`);
-//     const data = await response.json();
-//     locationKey = data[0]?.Key;
-//     if (!locationKey) throw new Error('Location key not found');
-//   }
-
-//   async function getWeatherData() {
-//     const response = await fetch(
-//       `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${AW_apiKey}`
-//     );
-//     if (!response.ok) throw new Error(`Error: ${response.status}`);
-//     const data = await response.json();
-//     weatherData = data[0];
-//   }
-
-//   await getLocationKey();
-//   await getWeatherData();
-// }
-
-//openweather data fetch=======================================
+//Fetching data from OpenWeather====================================
 async function getWeather(cityName) {
   async function getCurrentWeatherData() {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${OW_apiKey}&units=metric`);
@@ -202,7 +180,7 @@ async function getWeather(cityName) {
   await getDailyForecast();
 }
 
-// fetching daily forecast from accuweather
+// fetching daily forecast from AccuWeather========================
 async function getForecastAW(cityName) {
   let locationKey;
   async function getLocationKey() {
@@ -222,8 +200,7 @@ async function getForecastAW(cityName) {
   const data = await response.json();
   forecastDataAW = data;
 }
-
-
+// data update call======================================
 searchBoxForm.addEventListener('submit', async function (event) {
   event.preventDefault();
   try {
