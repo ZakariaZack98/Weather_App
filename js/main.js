@@ -38,6 +38,16 @@ const UVIndex = document.getElementById("UVIndex");
 const pressure = document.getElementById("pressure");
 const precipation = document.getElementById("precipation");
 
+const bgCollections = {
+  rain: 'https://static.vecteezy.com/system/resources/thumbnails/033/645/252/small_2x/drizzle-rainy-day-in-autumn-background-and-wallpaper-generative-ai-photo.jpg',
+  sunny: 'https://wallpapers.com/images/featured/sunny-i2iuwt6dckyhzjmi.jpg',
+  clouds: 'https://wallpaperaccess.com/full/5172677.jpg',
+  snow: 'https://rukminim2.flixcart.com/image/850/1000/kvmpq4w0/wall-decoration/h/b/o/street-light-snow-snowing-winter-wallpaper-poster-1-v061121-623-original-imag8hhnhetyzmyd.jpeg?q=20&crop=false',
+  haze: 'https://c4.wallpaperflare.com/wallpaper/625/628/1014/forest-sun-jungle-trees-wallpaper-preview.jpg',
+  thunderstorm: 'https://backiee.com/static/wallpapers/560x315/182345.jpg',
+  drizze: 'https://static.vecteezy.com/system/resources/thumbnails/033/645/252/small_2x/drizzle-rainy-day-in-autumn-background-and-wallpaper-generative-ai-photo.jpg'
+};
+
 // functions====================================================
 dateToDayName = timestamp => {
   return new Date(timestamp * 1000).toLocaleString('en-US', { weekday: 'short' })
@@ -51,11 +61,17 @@ function formatTime12Hour(timestamp) {
 }
 // updates the weather summery display
 changeBackground = () => {
+  let condition = weatherData.weather[0].main;
   background.style.opacity = 0;
   setTimeout(() => {
-    background.style.backgroundImage = `url('https://static.vecteezy.com/system/resources/thumbnails/047/462/181/small/raindrops-streaking-down-a-windowpane-with-a-blurred-cityscape-in-the-background-photo.jpg')`;
-    background.style.opacity = 1; // Fade-in
-  }, 500); // Matches the CSS transition duration;
+    if( condition === 'Rain' || condition === 'Drizzle' ) background.style.backgroundImage = `url(${bgCollections.rain})`;
+    else if(condition === 'Clear') background.style.backgroundImage = `url(${bgCollections.sunny})`;
+    else if(condition === 'Snow') background.style.backgroundImage = `url(${bgCollections.snow})`;
+    else if(condition === 'Haze') background.style.backgroundImage = `url(${bgCollections.haze})`;
+    else if(condition === 'Clouds') background.style.backgroundImage = `url(${bgCollections.clouds})`;
+    else if(condition === 'Thunderstorm') background.style.backgroundImage = `url(${bgCollections.thunderstorm})`;
+    background.style.opacity = 1;
+  }, 500);
 }
 
 updateSummery = () => {
@@ -242,12 +258,13 @@ searchBoxForm.addEventListener('submit', async function (event) {
       return;
     }
     await Promise.allSettled([getWeather(keyWord), getForecastAW(keyWord)]);
+    //applying fade in animation
+    Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 1);
+    changeBackground();
     updateSummery();
     updateDaily();
     updateHourly();
     updateOthers();
-    //applying fade in animation
-    Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 1);
   } catch (error) {
     console.warn('Error fetching weather:', error);
   }

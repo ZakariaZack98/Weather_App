@@ -68,6 +68,7 @@ p {
   overflow-y: scroll;
   scrollbar-width: none;
   transition: 0.3s ease-in-out;
+  border: 1px solid rgb(61, 61, 61)
 }
 #canvasBG {
   position: absolute;
@@ -81,6 +82,7 @@ p {
     transition: opacity 1s ease; /* For smooth fading */
     background-color: transparent;
     border-radius: 15px;
+    ;
 }
 #mainWrapper {
   position: relative;
@@ -139,20 +141,24 @@ p {
   font-size: 90px;
   font-weight: 600;
   line-height: 110%;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.514);
 }
 .weatherSummeryTemp__unit {
   font-size: 40px;
   right: -30px;
   font-weight: 600;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.514);
 }
 .weatherSummeryCondition {
-  font-weight: 300;
+  font-weight: 600;
   font-size: 18px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.514);
 }
 .weatherSummeryAQI {
   border-radius: 10px;
   background-color: rgba(245, 222, 179, 0.11);
   font-size: 14px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.514);
 }
 
 /* ===========forecast============== */
@@ -165,7 +171,7 @@ p {
 }
 .forecast,
 .todaysForecast {
-  background-color: rgba(0, 0, 0, 0.199);
+  background-color: rgba(0, 0, 0, 0.226);
   border-radius: 10px;
 }
 .forecastRow {
