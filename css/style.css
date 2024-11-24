@@ -243,7 +243,7 @@ p {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1999;
-  font-size: 22px;
+  font-size: 18px;
   position: relative;
   transition: 0.5s ease-in-out;
 }
@@ -257,12 +257,17 @@ p {
   height: 100%;
   backdrop-filter: blur(10px);
   z-index: -1;
-  background-color: rgba(0, 0, 0, 0.137);
 }
-
+.head {
+  color: black;
+}
 .forecastCard {
-  background-color: rgba(245, 245, 245, 0.103);
+  background-color: rgba(0, 0, 0, 0.24);
   border-radius: 15px;
   font-size: 18px;
   font-weight: 300;
+}
+.secondRow {
+  font-size: 14px;
+  border-top: 1px solid rgba(245, 245, 245, 0.5);
 }

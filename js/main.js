@@ -9,7 +9,9 @@ let forecastDataAW = null;
 const AW_apiKey = "zRPS15w0Lf4lAG96GrGXWykhck7sRyyY";
 const OW_apiKey = "6dddd25bb5635f994fdc1c00340448ea";
 const background = document.getElementById('background');
+const contentHolder = document.getElementById('contentHolder');
 const fiveDaysPage = document.getElementById('fiveDaysPage');
+const forecastCardWrapper = Array.from(document.getElementsByClassName('forecastCard'));
 // head ================================
 const searchBtn = document.getElementById("searchBtn");
 const cityName = document.getElementById('searchCity');
@@ -72,7 +74,7 @@ changeBackground = () => {
     else if(condition === 'Clear') background.style.backgroundImage = `url(${bgCollections.sunny})`;
     else if(condition === 'Snow') background.style.backgroundImage = `url(${bgCollections.snow})`;
     else if(condition === 'Haze' || condition === 'Mist' || condition === 'Fog') background.style.backgroundImage = `url(${bgCollections.autumnHaze})`;
-    else if(conditionDesc === 'Smoke') background.style.backgroundImage = `url(${bgCollections.smoke})`;
+    else if(conditionDesc === 'smoke') background.style.backgroundImage = `url(${bgCollections.smoke})`;
     else if(conditionDesc === 'scattered clouds' || conditionDesc === 'intermittent clouds' || conditionDesc === 'few clouds' || conditionDesc === 'broken clouds') background.style.backgroundImage = `url(${bgCollections.scatteredClouds})`;
     else if(conditionDesc === 'overcast clouds') background.style.backgroundImage = `url(${bgCollections.overCast})`;
     else if(condition === 'Clouds') background.style.backgroundImage = `url(${bgCollections.clouds})`;
@@ -130,6 +132,55 @@ updateDaily = () => {
     forecastRows[index].firstElementChild.lastElementChild.innerHTML = value.Day.IconPhrase;
     forecastRows[index].lastElementChild.firstElementChild.innerText = Math.round(value.Temperature.Maximum.Value) + '°';
     forecastRows[index].lastElementChild.lastElementChild.innerText = Math.round(value.Temperature.Minimum.Value) + '°';
+  })
+}
+
+//update 5 day forecast page
+update5days = () => {
+  const next5days = forecastDataAW.DailyForecasts;
+  let condition;
+  next5days.forEach((value, index) => {
+    condition = value.Day.IconPhrase;
+    //changing icond
+    if (condition === 'Rain' || condition === 'Showers') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = `<i class="fa-duotone fa-light fa-cloud-rain me-2"></i>`;
+    }
+    else if (condition === 'Snow' || condition === 'Rain and snow' || condition === 'Freezing rain' || condition === 'Sleet' || condition === 'Ice' || condition === 'Flurries') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-regular fa-snowflake me-2"></i>';
+    }
+    else if (condition === 'Clear' || condition === 'Sunny') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp fa-solid fa-sun me-2"></i>';
+    }
+    else if (condition === 'Partly cloudy' || condition === 'Partly sunny' || condition === 'Mostly cloudy' || condition === 'Intermittent clouds') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-solid fa-clouds-sun me-2"></i>';
+    }
+    else if (condition === 'Mostly sunny' || condition === 'Mostly clear') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-cloud me-2"></i>';
+    }
+    else if (condition === 'Cloudy') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>';
+    }
+    else if (condition === 'Drizzle' || condition === 'Mostly cloudy w/ showers') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>';
+    }
+    else if (condition === 'Thunderstorm' || condition === 'Mostly cloudy w/ t-storms') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-bolt me-2"></i>';
+    }
+    else if (condition === 'Smoke' || condition === 'Fog') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-light fa-smoke me-2"></i>';
+    }
+    else if (condition === 'Hazy' || condition === 'Mist' || condition === 'Hazy sunshine') {
+      forecastCardWrapper[index].firstElementChild.firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>';
+    }
+    //updating other data
+  forecastCardWrapper[index].firstElementChild.firstElementChild.lastElementChild.previousElementSibling.innerHTML = dateToDayName(value.EpochDate); //day name
+  forecastCardWrapper[index].firstElementChild.firstElementChild.lastElementChild.innerHTML = value.Day.IconPhrase; //weather condition
+  forecastCardWrapper[index].firstElementChild.lastElementChild.firstElementChild.innerText = Math.round(value.Temperature.Maximum.Value) + '°'; //maxTemp
+  forecastCardWrapper[index].firstElementChild.lastElementChild.lastElementChild.innerText = Math.round(value.Temperature.Minimum.Value) + '°'; //minTemp
+  forecastCardWrapper[index].lastElementChild.firstElementChild.firstElementChild.nextElementSibling.innerText = value.Day.Wind.Speed.Value; //wind speed
+  forecastCardWrapper[index].lastElementChild.firstElementChild.lastElementChild.innerText = value.Day.Wind.Direction.English; //wind direction
+  forecastCardWrapper[index].lastElementChild.lastElementChild.lastElementChild.innerText = value.AirAndPollen[5].Category; //UV
+  forecastCardWrapper[index].lastElementChild.firstElementChild.nextElementSibling.lastElementChild.innerText = value.AirAndPollen[0].Category; //AQI
   })
 }
 
@@ -277,6 +328,7 @@ searchBoxForm.addEventListener('submit', async function (event) {
     updateDaily();
     updateHourly();
     updateOthers();
+    update5days();
   } catch (error) {
     console.warn('Error fetching weather:', error);
   }
@@ -285,7 +337,9 @@ searchBoxForm.addEventListener('submit', async function (event) {
 // switch to five days forecast
 fullForecastBtn.addEventListener('click', () => {
   fiveDaysPage.style.transform = 'translateX(0%)';
+  Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 0);
 });
 backBtn.addEventListener('click', () => {
   fiveDaysPage.style.transform = 'translateX(100%)';
+  Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 1);
 })

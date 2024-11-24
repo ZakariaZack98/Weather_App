@@ -27,31 +27,15 @@
                 <i class="fa-light fa-arrow-left pointer" id="backBtn" style="font-size: 22px;"></i>
                 <p class="caption">5 days forecast </p>
             </div>
-            <div class="forecastCardWrapper mt-5">
+            <div class="forecastCardWrapper mt-5" id="forecastCardWrapper">
                 <div class="forecastCard p-3 mb-3">
-                    <div class="firstRow d-flex justify-content-between">
+                    <div class="firstRow d-flex justify-content-between pb-2">
                         <div class="forecastRowLeft">
-                            <div id="todayIcon" style="display: inline-block;">
+                            <div style="display: inline-block;">
                                 <i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>
                             </div>
                             <span>Today</span>
                             <span>Haze</span>
-                        </div>
-                        <div class="forecastRowRight d-flex gap-1">
-                            <span class="forecastRowRight__maxTemp" id="todaysHighestTempForecast">30°</span>
-                            <span>/</span>
-                            <span class="forecastRowRight__minTemp">17°</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="forecastCard p-3 mb-3">
-                    <div class="firstRow d-flex justify-content-between">
-                        <div class="forecastRowLeft">
-                            <div style="display: inline-block;">
-                                <i class="fa-duotone fa-solid fa-sun me-2"></i>
-                            </div>
-                            <span>Tomorrow</span>
-                            <span>Clear</span>
                         </div>
                         <div class="forecastRowRight d-flex gap-1">
                             <span class="forecastRowRight__maxTemp">30°</span>
@@ -59,20 +43,143 @@
                             <span class="forecastRowRight__minTemp">17°</span>
                         </div>
                     </div>
+                    <div class="secondRow pt-2 d-flex justify-content-between align-items-center">
+                        <div class="secondRowWind d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-wind" style="font-size: 12px;"></i>
+                            <span>1.5km/h</span>
+                            <span>NNE</span>
+                        </div>
+                        <div class="secondRowAQI d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-mask-face" style="font-size: 12px;"></i>
+                            <span>5</span>
+                        </div>
+                        <div class="secondRowUV d-flex align-items-center gap-1">
+                            <span>UV:</span>
+                            <span>Moderate</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="forecastCard p-3 mb-3">
-                    <div class="firstRow d-flex justify-content-between">
+                    <div class="firstRow d-flex justify-content-between pb-2">
                         <div class="forecastRowLeft">
                             <div style="display: inline-block;">
-                                <i class="fa-duotone fa-solid fa-sun me-2"></i>
+                                <i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>
                             </div>
-                            <span>Wed</span>
-                            <span>Clear</span>
+                            <span>Today</span>
+                            <span>Haze</span>
                         </div>
                         <div class="forecastRowRight d-flex gap-1">
-                            <span class="forecastRowRight__maxTemp ">30°</span>
+                            <span class="forecastRowRight__maxTemp">30°</span>
                             <span>/</span>
                             <span class="forecastRowRight__minTemp">17°</span>
+                        </div>
+                    </div>
+                    <div class="secondRow pt-2 d-flex justify-content-between align-items-center">
+                        <div class="secondRowWind d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-wind" style="font-size: 12px;"></i>
+                            <span>1.5km/h</span>
+                            <span>NNE</span>
+                        </div>
+                        <div class="secondRowAQI d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-mask-face" style="font-size: 12px;"></i>
+                            <span>5</span>
+                        </div>
+                        <div class="secondRowUV d-flex align-items-center gap-1">
+                            <span>UV:</span>
+                            <span>Moderate</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="forecastCard p-3 mb-3">
+                    <div class="firstRow d-flex justify-content-between pb-2">
+                        <div class="forecastRowLeft">
+                            <div style="display: inline-block;">
+                                <i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>
+                            </div>
+                            <span>Today</span>
+                            <span>Haze</span>
+                        </div>
+                        <div class="forecastRowRight d-flex gap-1">
+                            <span class="forecastRowRight__maxTemp">30°</span>
+                            <span>/</span>
+                            <span class="forecastRowRight__minTemp">17°</span>
+                        </div>
+                    </div>
+                    <div class="secondRow pt-2 d-flex justify-content-between align-items-center">
+                        <div class="secondRowWind d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-wind" style="font-size: 12px;"></i>
+                            <span>1.5km/h</span>
+                            <span>NNE</span>
+                        </div>
+                        <div class="secondRowAQI d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-mask-face" style="font-size: 12px;"></i>
+                            <span>5</span>
+                        </div>
+                        <div class="secondRowUV d-flex align-items-center gap-1">
+                            <span>UV:</span>
+                            <span>Moderate</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="forecastCard p-3 mb-3">
+                    <div class="firstRow d-flex justify-content-between pb-2">
+                        <div class="forecastRowLeft">
+                            <div style="display: inline-block;">
+                                <i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>
+                            </div>
+                            <span>Today</span>
+                            <span>Haze</span>
+                        </div>
+                        <div class="forecastRowRight d-flex gap-1">
+                            <span class="forecastRowRight__maxTemp">30°</span>
+                            <span>/</span>
+                            <span class="forecastRowRight__minTemp">17°</span>
+                        </div>
+                    </div>
+                    <div class="secondRow pt-2 d-flex justify-content-between align-items-center">
+                        <div class="secondRowWind d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-wind" style="font-size: 12px;"></i>
+                            <span>1.5km/h</span>
+                            <span>NNE</span>
+                        </div>
+                        <div class="secondRowAQI d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-mask-face" style="font-size: 12px;"></i>
+                            <span>5</span>
+                        </div>
+                        <div class="secondRowUV d-flex align-items-center gap-1">
+                            <span>UV:</span>
+                            <span>Moderate</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="forecastCard p-3 mb-3">
+                    <div class="firstRow d-flex justify-content-between pb-2">
+                        <div class="forecastRowLeft">
+                            <div style="display: inline-block;">
+                                <i class="fa-duotone fa-solid fa-sun-haze me-2" ></i>
+                            </div>
+                            <span>Today</span>
+                            <span>Haze</span>
+                        </div>
+                        <div class="forecastRowRight d-flex gap-1">
+                            <span class="forecastRowRight__maxTemp">30°</span>
+                            <span>/</span>
+                            <span class="forecastRowRight__minTemp">17°</span>
+                        </div>
+                    </div>
+                    <div class="secondRow pt-2 d-flex justify-content-between align-items-center">
+                        <div class="secondRowWind d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-wind" style="font-size: 12px;"></i>
+                            <span>1.5km/h</span>
+                            <span>NNE</span>
+                        </div>
+                        <div class="secondRowAQI d-flex align-items-center gap-1">
+                            <i class="fa-sharp-duotone fa-solid fa-mask-face" style="font-size: 12px;"></i>
+                            <span>5</span>
+                        </div>
+                        <div class="secondRowUV d-flex align-items-center gap-1">
+                            <span>UV:</span>
+                            <span>Moderate</span>
                         </div>
                     </div>
                 </div>
