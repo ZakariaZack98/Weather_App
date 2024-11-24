@@ -8,10 +8,6 @@ let dailyForecastData = null;
 let forecastDataAW = null;
 const AW_apiKey = "zRPS15w0Lf4lAG96GrGXWykhck7sRyyY";
 const OW_apiKey = "6dddd25bb5635f994fdc1c00340448ea";
-const mainBody = document.getElementById('mainBody');
-const contentHolder = document.getElementById('contentHolder');
-const canvasBG = document.getElementById('canvasBG');
-const mainWrapper = document.getElementById('mainWrapper');
 const background = document.getElementById('background');
 // head ================================
 const searchBtn = document.getElementById("searchBtn");
@@ -42,8 +38,12 @@ const bgCollections = {
   rain: 'https://static.vecteezy.com/system/resources/thumbnails/033/645/252/small_2x/drizzle-rainy-day-in-autumn-background-and-wallpaper-generative-ai-photo.jpg',
   sunny: 'https://wallpapers.com/images/featured/sunny-i2iuwt6dckyhzjmi.jpg',
   clouds: 'https://wallpaperaccess.com/full/5172677.jpg',
+  scatteredClouds: 'https://images.squarespace-cdn.com/content/v1/5d4c63022fdc0f0001a31f58/1565863502860-U636YZGVWKQJ47331LG6/cloud+dark+blue.jpg?format=2500w',
+  overCast: 'https://www.rochesterfirst.com/wp-content/uploads/sites/66/2021/04/sky-1107579_1920.jpg',
   snow: 'https://rukminim2.flixcart.com/image/850/1000/kvmpq4w0/wall-decoration/h/b/o/street-light-snow-snowing-winter-wallpaper-poster-1-v061121-623-original-imag8hhnhetyzmyd.jpeg?q=20&crop=false',
   haze: 'https://c4.wallpaperflare.com/wallpaper/625/628/1014/forest-sun-jungle-trees-wallpaper-preview.jpg',
+  smoke: 'https://img.freepik.com/premium-photo/street-small-french-town-fog_209484-9489.jpg',
+  autumnHaze: 'https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg',
   thunderstorm: 'https://backiee.com/static/wallpapers/560x315/182345.jpg',
   drizze: 'https://static.vecteezy.com/system/resources/thumbnails/033/645/252/small_2x/drizzle-rainy-day-in-autumn-background-and-wallpaper-generative-ai-photo.jpg'
 };
@@ -59,15 +59,20 @@ function formatTime12Hour(timestamp) {
     hour12: true
   });
 }
+
 // updates the weather summery display
 changeBackground = () => {
   let condition = weatherData.weather[0].main;
+  let conditionDesc = weatherData.weather[0].description;
   background.style.opacity = 0;
   setTimeout(() => {
     if( condition === 'Rain' || condition === 'Drizzle' ) background.style.backgroundImage = `url(${bgCollections.rain})`;
     else if(condition === 'Clear') background.style.backgroundImage = `url(${bgCollections.sunny})`;
     else if(condition === 'Snow') background.style.backgroundImage = `url(${bgCollections.snow})`;
-    else if(condition === 'Haze') background.style.backgroundImage = `url(${bgCollections.haze})`;
+    else if(condition === 'Haze' || condition === 'Mist' || condition === 'Fog') background.style.backgroundImage = `url(${bgCollections.autumnHaze})`;
+    else if(conditionDesc === 'Smoke') background.style.backgroundImage = `url(${bgCollections.smoke})`;
+    else if(conditionDesc === 'scattered clouds' || conditionDesc === 'intermittent clouds' || conditionDesc === 'few clouds' || conditionDesc === 'broken clouds') background.style.backgroundImage = `url(${bgCollections.scatteredClouds})`;
+    else if(conditionDesc === 'overcast clouds') background.style.backgroundImage = `url(${bgCollections.overCast})`;
     else if(condition === 'Clouds') background.style.backgroundImage = `url(${bgCollections.clouds})`;
     else if(condition === 'Thunderstorm') background.style.backgroundImage = `url(${bgCollections.thunderstorm})`;
     background.style.opacity = 1;
@@ -81,6 +86,7 @@ updateSummery = () => {
   todaysLowestTemp.innerText = Math.round(forecastDataAW.DailyForecasts[0].Temperature.Minimum.Value);
   currentAQI.innerText = AQIData.list[0].main.aqi;
 }
+
 // updates the daily update section
 updateDaily = () => {
   let condition;
@@ -106,7 +112,7 @@ updateDaily = () => {
     else if (condition === 'Cloudy') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-sharp-duotone fa-solid fa-clouds me-2"></i>';
     }
-    else if (condition === 'Drizzle') {
+    else if (condition === 'Drizzle' || condition === 'Mostly cloudy w/ showers') {
       forecastRows[index].firstElementChild.firstElementChild.innerHTML = '<i class="fa-duotone fa-light fa-cloud-drizzle me-2"></i>';
     }
     else if (condition === 'Thunderstorm' || condition === 'Mostly cloudy w/ t-storms') {
@@ -124,6 +130,7 @@ updateDaily = () => {
     forecastRows[index].lastElementChild.lastElementChild.innerText = Math.round(value.Temperature.Minimum.Value) + '°';
   })
 }
+
 updateHourly = () => {
   let condition;
   const next24hours = dailyForecastData.list.slice(0, 8);
@@ -163,6 +170,7 @@ updateHourly = () => {
     forecastItems[index].lastElementChild.innerText = formatTime12Hour(value.dt);
   });
 }
+
 //updating other data
 updateOthers = () => {
   //updating the sunset/sunrise
@@ -244,12 +252,9 @@ async function getForecastAW(cityName) {
   const data = await response.json();
   forecastDataAW = data;
 }
+
 // data update call======================================
 searchBoxForm.addEventListener('submit', async function (event) {
-  //applying fade out animation
-  setTimeout(() => {
-    Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 0);
-  }, 500);
   event.preventDefault();
   try {
     let keyWord = cityName.value.trim();
@@ -257,10 +262,14 @@ searchBoxForm.addEventListener('submit', async function (event) {
       alert('Please enter a valid city name');
       return;
     }
+    //applying fade out animation
+    setTimeout(() => {
+      changeBackground();
+      Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 0);
+    }, 500);
     await Promise.allSettled([getWeather(keyWord), getForecastAW(keyWord)]);
     //applying fade in animation
     Array.from(contentHolder.children).forEach(elem => elem.style.opacity = 1);
-    changeBackground();
     updateSummery();
     updateDaily();
     updateHourly();

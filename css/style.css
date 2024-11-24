@@ -212,6 +212,7 @@ p {
   font-size: 12px;
   background-color: rgba(0, 0, 0, 0.199);
   padding: 0 10px;
+  width: 49%;
 }
 .otherUpdatesRight * {
   border-bottom: 1px solid rgba(128, 128, 128, 0.534);
