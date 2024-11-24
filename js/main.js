@@ -266,28 +266,15 @@ updateOthers = () => {
 
 //Fetching data from OpenWeather====================================
 async function getWeather(cityName) {
-  async function getCurrentWeatherData() {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${OW_apiKey}&units=metric`);
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
-    const data = await response.json();
-    weatherData = data;
-  }
-  await getCurrentWeatherData();
+  weatherData = await fetchData(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${OW_apiKey}&units=metric`);
   lat = weatherData.coord.lat;
   lon = weatherData.coord.lon;
-  async function getAirQuality() {
-    const response = await fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OW_apiKey}`);
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
-    const data = await response.json();
-    AQIData = data;
-  }
-  async function getDailyForecast() {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${OW_apiKey}&units=metric`);
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
-    const data = await response.json();
-    dailyForecastData = data;
-  }
-  await Promise.allSettled([getAirQuality(), getDailyForecast()]);
+  const results = await Promise.allSettled([
+    fetchData(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OW_apiKey}`),
+    fetchData(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${OW_apiKey}&units=metric`)
+  ]);
+  AQIData = results[0].value;
+  dailyForecastData = results[1].value;
 }
 
 // fetching daily forecast from AccuWeather========================
