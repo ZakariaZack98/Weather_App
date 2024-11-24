@@ -22,15 +22,15 @@ body {
 }
 #background {
   position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Place it behind other content */
-    background-size: cover;
-    background-position: center;
-    transition: opacity 1s ease; /* For smooth fading */
-    background-image: url(https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Place it behind other content */
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease; /* For smooth fading */
+  background-image: url(https://w0.peakpx.com/wallpaper/391/402/HD-wallpaper-people-walking-on-road-between-trees-during-foggy-weather.jpg);
   color: whitesmoke;
   background-repeat: no-repeat;
   background-size: cover;
@@ -68,21 +68,20 @@ p {
   overflow-y: scroll;
   scrollbar-width: none;
   transition: 0.3s ease-in-out;
-  border: 1px solid rgb(61, 61, 61)
+  border: 1px solid rgb(61, 61, 61);
 }
 #canvasBG {
   position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Place it behind other content */
-    background-size: cover;
-    background-position: center;
-    transition: opacity 1s ease; /* For smooth fading */
-    background-color: transparent;
-    border-radius: 15px;
-    ;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Place it behind other content */
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease; /* For smooth fading */
+  background-color: transparent;
+  border-radius: 15px;
 }
 #mainWrapper {
   position: relative;
@@ -114,7 +113,8 @@ p {
   font-size: 20px;
   font-weight: 400;
 }
-.searchBox, .searchInput {
+.searchBox,
+.searchInput {
   padding: 0.2rem 0.5rem;
   border-radius: 30px;
 }
@@ -200,7 +200,9 @@ p {
 }
 /* =================others============= */
 .otherUpdates,
-.otherUpdatesLeftWind, .otherUpdatesLeftSunCondition, .otherUpdatesLeftAQI{
+.otherUpdatesLeftWind,
+.otherUpdatesLeftSunCondition,
+.otherUpdatesLeftAQI {
   background-color: rgba(0, 0, 0, 0.199);
   border-radius: 10px;
   height: fit-content;
@@ -217,7 +219,9 @@ p {
 .otherUpdatesRight * {
   border-bottom: 1px solid rgba(128, 128, 128, 0.534);
 }
-.otherUpdatesLeftWind, .otherUpdatesLeftSunset, .otherUpdatesLeftAQI {
+.otherUpdatesLeftWind,
+.otherUpdatesLeftSunset,
+.otherUpdatesLeftAQI {
   height: 33%;
 }
 .othersUpdate {
@@ -225,4 +229,40 @@ p {
 }
 .otherUpdatesLeft {
   row-gap: 10px;
+}
+
+#fiveDaysPage {
+  transform: translateX(100%);
+  color: whitesmoke;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(20px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1999;
+  font-size: 22px;
+  position: relative;
+  transition: 0.5s ease-in-out;
+}
+
+#fiveDaysPage::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.137);
+}
+
+.forecastCard {
+  background-color: rgba(245, 245, 245, 0.103);
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 300;
 }

@@ -9,6 +9,7 @@ let forecastDataAW = null;
 const AW_apiKey = "zRPS15w0Lf4lAG96GrGXWykhck7sRyyY";
 const OW_apiKey = "6dddd25bb5635f994fdc1c00340448ea";
 const background = document.getElementById('background');
+const fiveDaysPage = document.getElementById('fiveDaysPage');
 // head ================================
 const searchBtn = document.getElementById("searchBtn");
 const cityName = document.getElementById('searchCity');
@@ -22,6 +23,7 @@ const currentAQI = document.getElementById("todayAQI");
 //forecast==========================
 const forecastRows = Array.from(document.getElementsByClassName('forecastRow'));
 const fullForecastBtn = document.getElementById("fullForecastBtn");
+const backBtn = document.getElementById('backBtn');
 //hourly forecast=====================
 const forecastItems = Array.from(document.getElementsByClassName('forecastContent'));
 // other forecasts====================
@@ -206,6 +208,7 @@ updateOthers = () => {
   precipation.innerText = `${forecastDataAW.DailyForecasts[0].Day.RainProbability}%`;
 }
 
+fiveDaysPage.style.backgroundImage = background.style.backgroundImage;
 //Fetching data from OpenWeather====================================
 async function getWeather(cityName) {
   async function getCurrentWeatherData() {
@@ -278,3 +281,11 @@ searchBoxForm.addEventListener('submit', async function (event) {
     console.warn('Error fetching weather:', error);
   }
 });
+
+// switch to five days forecast
+fullForecastBtn.addEventListener('click', () => {
+  fiveDaysPage.style.transform = 'translateX(0%)';
+});
+backBtn.addEventListener('click', () => {
+  fiveDaysPage.style.transform = 'translateX(100%)';
+})
