@@ -122,16 +122,16 @@ p {
   border: none;
   width: 90%;
   background-color: transparent;
-  color: white;
+  color: rgb(61, 61, 61);
 }
 .searchBox {
-  background-color: rgba(245, 245, 245, 0.521);
+  background-color: rgba(245, 245, 245, 0.959);
   transition: 0.3s ease-out;
 }
 .submitBtn {
   border: none;
   background-color: transparent;
-  color: white;
+  color: rgb(61, 61, 61);
 }
 /* ===========weathersummery========== */
 .weatherSummery {
@@ -187,6 +187,7 @@ p {
   padding: 7px 0;
   border-radius: 20px;
   color: whitesmoke;
+  transition: 0.3s ease;
 }
 .forecastContent {
   width: 50px;
@@ -197,6 +198,10 @@ p {
 }
 .forecastContent * {
   margin: 0;
+}
+
+.detailForcastBtn:hover {
+  background-color: rgba(245, 245, 245, 0.61);
 }
 /* =================others============= */
 .otherUpdates,
@@ -259,7 +264,8 @@ p {
   z-index: -1;
 }
 .head {
-  color: black;
+  color: rgb(49, 49, 49);
+  font-size: 26px;
 }
 .forecastCard {
   background-color: rgba(0, 0, 0, 0.24);

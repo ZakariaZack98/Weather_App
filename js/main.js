@@ -17,6 +17,7 @@ const searchBtn = document.getElementById("searchBtn");
 const cityName = document.getElementById('searchCity');
 const searchBoxForm = document.getElementById('searchBoxForm');
 // summery=========================
+const weatherSummery = document.getElementById('weatherSummery');
 const mainTempCount = document.getElementById("mainTempCount");
 const curentCondition = document.getElementById("curentCondition");
 const todaysHighestTemp = document.getElementById("todaysHighestTemp");
@@ -64,7 +65,13 @@ function formatTime12Hour(timestamp) {
   });
 }
 
-// updates the weather summery display
+async function fetchData(url) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Error: ${response.status}`);
+  const data = await response.json();
+  return data;
+}
+
 changeBackground = () => {
   let condition = weatherData.weather[0].main;
   let conditionDesc = weatherData.weather[0].description;
@@ -91,7 +98,6 @@ updateSummery = () => {
   currentAQI.innerText = AQIData.list[0].main.aqi;
 }
 
-// updates the daily update section
 updateDaily = () => {
   let condition;
   const next3days = forecastDataAW.DailyForecasts.slice(0, 3);
@@ -224,7 +230,6 @@ updateHourly = () => {
   });
 }
 
-//updating other data
 updateOthers = () => {
   //updating the sunset/sunrise
   if (Math.floor(Date.now() / 1000) > forecastDataAW.DailyForecasts[0].Sun.EpochRise && Math.floor(Date.now() / 1000) < forecastDataAW.DailyForecasts[0].Sun.EpochSet) {
@@ -259,7 +264,6 @@ updateOthers = () => {
   precipation.innerText = `${forecastDataAW.DailyForecasts[0].Day.RainProbability}%`;
 }
 
-fiveDaysPage.style.backgroundImage = background.style.backgroundImage;
 //Fetching data from OpenWeather====================================
 async function getWeather(cityName) {
   async function getCurrentWeatherData() {
@@ -277,14 +281,13 @@ async function getWeather(cityName) {
     const data = await response.json();
     AQIData = data;
   }
-  await getAirQuality();
   async function getDailyForecast() {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${OW_apiKey}&units=metric`);
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     dailyForecastData = data;
   }
-  await getDailyForecast();
+  await Promise.allSettled([getAirQuality(), getDailyForecast()]);
 }
 
 // fetching daily forecast from AccuWeather========================
@@ -292,7 +295,7 @@ async function getForecastAW(cityName) {
   let locationKey;
   async function getLocationKey() {
     const response = await fetch(
-      `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=zRPS15w0Lf4lAG96GrGXWykhck7sRyyY&q=${cityName}`
+      `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${AW_apiKey}&q=${cityName}`
     );
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();

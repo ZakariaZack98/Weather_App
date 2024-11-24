@@ -195,7 +195,7 @@
             </form>
         </div>
         <div class="contentHolder p-3 position-relative" id="contentHolder">
-            <div class="weatherSummery w-100 d-flex flex-column justify-content-center align-items-center" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="weatherSummery w-100 d-flex flex-column justify-content-center align-items-center" id="weatherSummery" data-aos="zoom-in" data-aos-duration="1000">
                 <div class="weatherSummeryTemp d-flex position-relative">
                     <h1 class="weatherSummeryTemp__bigTemp" id="mainTempCount">29</h1><span
                         class="weatherSummeryTemp__unit position-absolute">°c</span>
@@ -217,10 +217,10 @@
                 <div class="forecastHeader d-flex justify-content-between pb-2">
                     <div class="forecastHeaderLeft">
                         <i class="fa-duotone fa-solid fa-calendar"></i>
-                        <span>5-day forecast</span>
+                        <span class="ps-1">5-day forecast</span>
                     </div>
                     <div class="forecastHeaderRight pointer">
-                        <span>More details</span>
+                        <a class="link-light" href="https://www.google.com/search?client=firefox-b-d&q=weather">More details</a>
                         <i class="fa-solid fa-caret-right"></i>
                     </div>
                 </div>
