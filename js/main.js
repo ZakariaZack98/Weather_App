@@ -270,7 +270,7 @@ async function getWeather(cityName) {
   lat = weatherData.coord.lat;
   lon = weatherData.coord.lon;
   const results = await Promise.allSettled([
-    fetchData(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OW_apiKey}`),
+    fetchData(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${OW_apiKey}`),
     fetchData(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${OW_apiKey}&units=metric`)
   ]);
   AQIData = results[0].value;
@@ -279,9 +279,9 @@ async function getWeather(cityName) {
 
 // fetching daily forecast from AccuWeather========================
 async function getForecastAW(cityName) {
-  let locationData = await fetchData(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${AW_apiKey}&q=${cityName}`);
+  let locationData = await fetchData(`https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${AW_apiKey}&q=${cityName}`);
   let locationKey = locationData[0].Key;
-  forecastDataAW = await fetchData(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${AW_apiKey}&details=true&metric=true`);
+  forecastDataAW = await fetchData(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${AW_apiKey}&details=true&metric=true`);
 }
 
 // data update call======================================
